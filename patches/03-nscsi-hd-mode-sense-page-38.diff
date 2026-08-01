@@ -1,0 +1,16 @@
+--- a/src/devices/bus/nscsi/hd.cpp	2026-07-31 18:59:16.776441656 -0600
++++ b/src/devices/bus/nscsi/hd.cpp	2026-07-31 18:59:16.976441729 -0600
+@@ -361,6 +361,13 @@
+ 				m_scsi_cmdbuf[pos++] = 0;
+ 				break;
+ 
++			case 0x38: // CCS cache control page
++				m_scsi_cmdbuf[pos++] = 0x38; // !PS, page id
++				m_scsi_cmdbuf[pos++] = 0x0e; // page length
++				std::fill_n(&m_scsi_cmdbuf[pos], 14, 0x00);
++				pos += 14;
++				break;
++
+ 			case 0x30: { // Apple firmware ID page
+ 				m_scsi_cmdbuf[pos++] = 0xb0; // cPS, page id
+ 				m_scsi_cmdbuf[pos++] = 0x16; // Page length

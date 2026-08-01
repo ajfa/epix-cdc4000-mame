@@ -1,0 +1,86 @@
+--- a/src/devices/machine/aic6250.cpp	2026-07-31 18:59:16.700441628 -0600
++++ b/src/devices/machine/aic6250.cpp	2026-07-31 18:59:16.924441710 -0600
+@@ -172,6 +172,7 @@
+ 	save_item(NAME(m_scsi_latch_data));
+ 
+ 	m_rev_cntrl = 0x02;
++	m_dma_count = 0;
+ 
+ 	m_state_timer = timer_alloc(FUNC(aic6250_device::state_loop), this);
+ 	m_state = IDLE;
+@@ -783,8 +784,16 @@
+ 		break;
+ 
+ 	case DMA_IN:
+-		// FIXME: assert ack when: req asserted && phase match && count not zero && fifo not full
+-		if (!m_fifo.full())
++		// assert ack when: req asserted && phase match && count not zero && fifo not full
++		if (!m_dma_count)
++			// transfer count exhausted: don't consume more than was asked for
++			m_state = DMA_IN_DRAIN;
++		else if (m_fifo.full())
++		{
++			delay = -1;
++			m_breq_cb(1);
++		}
++		else if ((m_scsi_bus->ctrl_r() & S_REQ) && phase_match(m_scsi_signal_reg, m_scsi_bus->ctrl_r()))
+ 		{
+ 			u8 const data = m_scsi_bus->data_r();
+ 			LOGMASKED(LOG_STATE, "dma in 0x%02x\n", data);
+@@ -797,11 +806,7 @@
+ 
+ 			m_scsi_bus->ctrl_w(m_scsi_refid, S_ACK, S_ACK);
+ 		}
+-		else
+-		{
+-			delay = -1;
+-			m_breq_cb(1);
+-		}
++		// otherwise wait here for req/phase
+ 		break;
+ 
+ 	case DMA_IN_NEXT:
+@@ -837,8 +842,17 @@
+ 		break;
+ 
+ 	case DMA_OUT:
+-		// FIXME: assert ack when: req asserted && phase match && count not zero && fifo not empty
+-		if (!m_fifo.empty())
++		// assert ack when: req asserted && phase match && count not zero && fifo not empty
++		if (!m_dma_count)
++			// transfer count exhausted: don't push prefetched bytes onto the
++			// bus, and above all don't wrap the byte counter doing it
++			m_state = DMA_OUT_DONE;
++		else if (m_fifo.empty())
++		{
++			delay = -1;
++			m_breq_cb(1);
++		}
++		else if ((m_scsi_bus->ctrl_r() & S_REQ) && phase_match(m_scsi_signal_reg, m_scsi_bus->ctrl_r()))
+ 		{
+ 			u8 const data = m_fifo.dequeue();
+ 			LOGMASKED(LOG_STATE, "dma out 0x%02x\n", data);
+@@ -852,11 +866,7 @@
+ 			m_scsi_bus->data_w(m_scsi_refid, data);
+ 			m_scsi_bus->ctrl_w(m_scsi_refid, S_ACK, S_ACK);
+ 		}
+-		else
+-		{
+-			delay = -1;
+-			m_breq_cb(1);
+-		}
++		// otherwise wait here for req/phase
+ 		break;
+ 
+ 	case DMA_OUT_NEXT:
+@@ -1015,7 +1025,9 @@
+ 	if (!(m_control_reg_0 & R07W_P_MEM_CYCLE_REQ))
+ 	{
+ 		if (m_dma_cntrl & R05W_TRANSFER_DIR)
+-			if (m_fifo.full() || m_dma_count < 8)
++			// stop prefetching once the FIFO holds the rest of the transfer
++			// (m_dma_count is what is left to put on the SCSI bus)
++			if (m_fifo.full() || m_fifo.queue_length() >= m_dma_count)
+ 				m_state_timer->adjust(attotime::zero);
+ 			else
+ 				m_breq_cb(1);
