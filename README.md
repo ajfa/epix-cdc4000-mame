@@ -182,7 +182,7 @@ Control Data Systems; this repository contains only emulator fixes and analysis
 tools.
 
 `docs/FINDINGS.md` is the full working diary, including the install procedure and
-the dead ends. `docs/NOTAS.md` has the exact installer answers.
+the dead ends. `docs/NOTES.md` has the exact installer answers.
 
 ## License
 
