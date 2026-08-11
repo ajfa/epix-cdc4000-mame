@@ -184,7 +184,14 @@ tools.
 `docs/FINDINGS.md` is the full working diary, including the install procedure and
 the dead ends. `docs/NOTAS.md` has the exact installer answers.
 
-## Licence
+## License
 
-The patches are modifications to MAME and carry MAME's licence (BSD-3-Clause).
-The tools in `tools/` are MIT, see `LICENSE`.
+The tooling and documentation in this repository are under the **GNU General
+Public License v3.0**, see [LICENSE](LICENSE).
+
+**`patches/` and `patched/` are different**: they are modifications to MAME and
+remain under MAME's own license, **BSD-3-Clause**, because that is what MAME
+requires of contributions. See [NOTICE.md](NOTICE.md).
+
+Contributions require the agreement in [CLA.md](CLA.md); see
+[CONTRIBUTING.md](CONTRIBUTING.md).
