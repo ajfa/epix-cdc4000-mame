@@ -8,11 +8,12 @@
 The kernel (unix.i2000_std) is not stripped, so the external symbol table gives
 us names and addresses for every driver entry point.
 """
+import os
 import re
 import struct
 import sys
 
-FILE = "<path>/epix/boot/unix.i2000_std"
+FILE = os.environ.get("EPIX_KERNEL", "boot/unix.i2000_std")
 
 
 class Ecoff:

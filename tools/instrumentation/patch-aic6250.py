@@ -23,9 +23,12 @@ until the FIFO was full or fewer than 8 bytes were left, so:
     back on -- which is exactly the "dma count 0 bit invalid" failure the
     Rx2030 IOP firmware reports at power-up.
 """
+import os
 import sys
 
-SRC = "<home>/ews4800/mame/src/devices/machine/aic6250.cpp"
+MAME_SRC = os.environ.get("MAME_SRC", "mame")
+
+SRC = os.path.join(MAME_SRC, "src/devices/machine/aic6250.cpp")
 
 DMA_IN_OLD = """	case DMA_IN:
 		// FIXME: assert ack when: req asserted && phase match && count not zero && fifo not full

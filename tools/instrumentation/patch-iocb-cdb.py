@@ -8,9 +8,12 @@ so the actual SCSI command descriptor block must live at the pointer.  Dump it
 both as an absolute RAM offset and relative to the IOCB area at 0x1000, since
 it is not yet clear which the field is.
 """
+import os
 import sys
 
-SRC = "<home>/ews4800/mame/src/mame/mips/mips_i2000.cpp"
+MAME_SRC = os.environ.get("MAME_SRC", "mame")
+
+SRC = os.path.join(MAME_SRC, "src/mame/mips/mips_i2000.cpp")
 
 OLD = """									LOGMASKED(LOG_IOCB, "iocb %s command 0x%04x param 0x%x:%s (%s)\\n",
 										iop_commands[iocb], iop_cmd, iocb_cmdparam, params,

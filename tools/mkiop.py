@@ -12,8 +12,8 @@ the V50 reset vector at physical 0xffff0 is ROM offset 0x3fff0.
 """
 import os
 
-R = "<path>/epix/roms/rs2030"
-OUT = "<path>/epix/boot/iop.bin"
+R = os.environ.get("EPIX_ROMS", "roms/rs2030")
+OUT = os.environ.get("EPIX_IOP", "boot/iop.bin")
 
 def rd(name):
     return open(os.path.join(R, name), "rb").read()

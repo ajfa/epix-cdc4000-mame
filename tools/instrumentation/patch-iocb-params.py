@@ -8,9 +8,12 @@ RISC/os' identical command codes succeed.  IOCBs live at RAM 0x1000, 24 entries
 of 16 bytes; bytes 0-3 of an entry point at the parameter block (also relative
 to 0x1000), whose bytes 2-3 hold the command.  SCSI units are IOCBs 7..14.
 """
+import os
 import sys
 
-SRC = "<home>/ews4800/mame/src/mame/mips/mips_i2000.cpp"
+MAME_SRC = os.environ.get("MAME_SRC", "mame")
+
+SRC = os.path.join(MAME_SRC, "src/mame/mips/mips_i2000.cpp")
 
 OLD = """							default:
 								LOGMASKED(LOG_IOCB, "iocb %s command 0x%04x (%s)\\n",

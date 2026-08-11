@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Summarise the SCSI command opcodes seen in the MAME log."""
+import os
 from collections import Counter
 
 NAMES = {"00": "TEST UNIT READY", "03": "REQUEST SENSE", "04": "FORMAT UNIT",
@@ -7,7 +8,8 @@ NAMES = {"00": "TEST UNIT READY", "03": "REQUEST SENSE", "04": "FORMAT UNIT",
          "1a": "MODE SENSE(6)", "1b": "START/STOP UNIT", "25": "READ CAPACITY",
          "28": "READ(10)", "2a": "WRITE(10)", "37": "READ DEFECT DATA"}
 
-lines = open("<path>/epix/rig/error.log", errors="replace").read().splitlines()
+LOG = os.environ.get("EPIX_LOG", "rig/error.log")
+lines = open(LOG, errors="replace").read().splitlines()
 ops, cur = [], []
 for l in lines:
     if "CDB " in l:

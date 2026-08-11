@@ -15,9 +15,12 @@ The 28-byte allocation length says exactly what the driver expects back:
 4 bytes of header + 8 of block descriptor + 16 of page, i.e. a page 0x38 whose
 page-length byte is 14.
 """
+import os
 import sys
 
-SRC = "<home>/ews4800/mame/src/devices/bus/nscsi/hd.cpp"
+MAME_SRC = os.environ.get("MAME_SRC", "mame")
+
+SRC = os.path.join(MAME_SRC, "src/devices/bus/nscsi/hd.cpp")
 
 OLD = """			case 0x30: { // Apple firmware ID page"""
 

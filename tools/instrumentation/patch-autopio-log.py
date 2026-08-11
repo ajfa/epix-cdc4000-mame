@@ -3,13 +3,16 @@
 
 The IOP firmware's polled SCSI routine drives the chip in Auto PIO mode
 (control register 1 bit 7 = R08W_AUTO_SCSI_PIO_REQ, data read a byte at a time
+import os
 from register 0x0f) and polls status register 1 bit 3 (Command Done).  Tracing
 just those states costs a handful of lines per command, unlike LOG_STATE which
 prints a line per byte of every DMA transfer and produces hundreds of MB.
 """
 import sys
 
-SRC = "<home>/ews4800/mame/src/devices/machine/aic6250.cpp"
+MAME_SRC = os.environ.get("MAME_SRC", "mame")
+
+SRC = os.path.join(MAME_SRC, "src/devices/machine/aic6250.cpp")
 
 EDITS = [
     ("""			m_state = AUTO_PIO;

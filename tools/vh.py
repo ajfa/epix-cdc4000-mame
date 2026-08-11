@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
+import os
 import struct, sys
 
-F = "<path>/epix/cdc_epix_2.1.1.iso"
+F = os.environ.get("EPIX_IMG", "cdc_epix_2.1.1.iso")
 d = open(F, "rb").read(4096)
 
 magic, rootpt, swappt = struct.unpack(">Ihh", d[0:8])

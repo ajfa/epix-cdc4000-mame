@@ -7,9 +7,12 @@ phase the firmware said it expected (the SCSI signal register).  A line at the
 start and end of each DMA transfer (not per byte) gives the same view of the
 operations sash performs successfully, so the two can be compared.
 """
+import os
 import sys
 
-SRC = "<home>/ews4800/mame/src/devices/machine/aic6250.cpp"
+MAME_SRC = os.environ.get("MAME_SRC", "mame")
+
+SRC = os.path.join(MAME_SRC, "src/devices/machine/aic6250.cpp")
 
 PH = ('nscsi_phase[m_scsi_bus->ctrl_r() & S_PHASE_MASK], '
       'aic6250_phase[m_scsi_signal_reg >> 5]')

@@ -8,7 +8,7 @@ Usage:  ffs.py ls <path>
 """
 import os, struct, sys, stat
 
-IMG = os.environ.get("EPIX_IMG", "<path>/epix/cdc_epix_2.1.1.iso")
+IMG = os.environ.get("EPIX_IMG", "cdc_epix_2.1.1.iso")
 PART_OFF = int(os.environ.get("EPIX_OFF", 9880 * 512))   # default: part2 = /usr/netinstall
 SB_OFF = 8192
 

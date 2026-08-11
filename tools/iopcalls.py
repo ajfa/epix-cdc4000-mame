@@ -5,10 +5,11 @@ A near call (0xe8 rel16) stays inside its segment, so the target's physical
 address is caller_phys + 3 + rel16 as long as both live in the same segment --
 good enough to map out who drives the AIC-6250 register helpers.
 """
+import os
 import struct
 import sys
 
-ROM = "<path>/epix/boot/iop.bin"
+ROM = os.environ.get("EPIX_IOP", "boot/iop.bin")
 BASE = 0xc0000
 
 d = open(ROM, "rb").read()

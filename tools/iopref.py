@@ -5,10 +5,11 @@ Real-mode x86 loads a string by its offset within some data segment, so try
 every plausible segment base: for each, compute what the 16-bit offset of the
 string would be and search the ROM for that little-endian immediate.
 """
+import os
 import struct
 import sys
 
-ROM = "<path>/epix/boot/iop.bin"
+ROM = os.environ.get("EPIX_IOP", "boot/iop.bin")
 # the ROM answers at 0x80000-0xbffff and again at 0xc0000-0xfffff
 BASES = (0x80000, 0xc0000)
 

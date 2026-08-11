@@ -25,10 +25,13 @@ Because the count is never zero, DMA BYTE COUNT ZERO (status register 0,
 bit 0) never comes on and the transfer never ends.  Masking the loads to 24
 bits and clearing the counter at start fixes both.
 """
+import os
 import sys
 
-HDR = "<home>/ews4800/mame/src/devices/machine/aic6250.h"
-SRC = "<home>/ews4800/mame/src/devices/machine/aic6250.cpp"
+MAME_SRC = os.environ.get("MAME_SRC", "mame")
+
+HDR = os.path.join(MAME_SRC, "src/devices/machine/aic6250.h")
+SRC = os.path.join(MAME_SRC, "src/devices/machine/aic6250.cpp")
 
 HDR_OLD = """	void dma_count_l_w(u8 data) { m_dma_count &= ~0x0000ff; m_dma_count |= (data << 0); }
 	void dma_count_m_w(u8 data) { m_dma_count &= ~0x00ff00; m_dma_count |= (data << 8); }

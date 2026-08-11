@@ -14,10 +14,11 @@ the volume directory cleared -- inst will populate it with sash.2030 later.
 We also drop the miniroot straight into the swap partition, which is exactly
 what the sash 'cp' step above would do.
 """
+import os
 import struct, sys
 
 RISCOS = "/tmp/riscos.raw"
-MINIROOT = "<path>/epix/boot/miniroot"
+MINIROOT = os.environ.get("EPIX_MINIROOT", "boot/miniroot")
 OUT = "/tmp/epix-target.raw"
 SIZE = 1731 * 15 * 80 * 512          # 1,063,526,400 -- matches the blank CHD
 

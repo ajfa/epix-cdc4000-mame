@@ -1,8 +1,6 @@
 # EP/IX 2.1.1 — análisis del medio aportado por el usuario (2026-07-30)
 
-Fichero origen: `<path>\CDC EP-IX 2.11.7z` (334 MiB, 7z sólido LZMA2)
-
-Contenido:
+Contenido de la distribución:
 | Fichero | Tamaño | Qué es |
 |---|---|---|
 | `cdc_epix_2.1.1.iso` | 601 677 824 | **NO es ISO9660** — imagen de disco con volume header SGI/MIPS |
@@ -113,7 +111,7 @@ Romset `rs2030` / `rc2030` (comparten `rom_i2000`):
 - Binario slim MAME 0.288 con solo el driver i2000: `~/ews4800/mame/mips2030`
   (`make SOURCES=src/mame/mips/mips_i2000.cpp SUBTARGET=mips2030 TOOLS=1 REGENIE=1 NOWERROR=1 -j6`),
   más `chdman`.
-- ROMs: el `roms.zip` del usuario trae `rs2030.zip` completo (incluye el `ds1287.bin` de 64 B
+- ROMs: un `rs2030.zip` completo (incluye el `ds1287.bin` de 64 B
   que no está en bitsavers) + `at_keybc.zip` + `kb_ms_natural.zip`. Los 8 volcados de PROM
   bajados de bitsavers (S-record, no Intel HEX) **coinciden en CRC32 con los 8 de MAME**.
 - Discos: `epix-dist.chd` (imagen EP/IX, 1223/15/64), `epix-target.chd` (1731/15/80),
@@ -829,7 +827,7 @@ Script listo: `rig/clean.sh`.
 - `rig/selftest.sh` — mide la tasa de éxito del autotest SCSI (N arranques cortos + md5)
 - `rig/catchfail.sh` — repite arranques hasta capturar una traza del fallo
 
-## Herramientas escritas en esta sesión (en `<path>\epix\`)
+## Herramientas escritas para este trabajo (`tools/`)
 - `vh.py` — parsea el volume header SGI y la tabla de particiones
 - `ffs.py` — lector de solo lectura de FFS 4.2BSD big-endian: `ls`, `tree`, `cat`, `get`, `extract`
 - `fs.py` — localiza superbloques FFS en las particiones
