@@ -54,7 +54,7 @@ EDITS = [
 text = open(SRC).read()
 for old, new in EDITS:
     if old not in text:
-        sys.exit(f"FAILED: no encontrado:\n{old[:70]}")
+        sys.exit(f"FAILED: not found:\n{old[:70]}")
     text = text.replace(old, new, 1)
 open(SRC, "w").write(text)
 print("patched", SRC)

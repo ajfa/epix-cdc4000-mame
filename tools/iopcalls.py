@@ -23,5 +23,5 @@ for t in targets:
         rel, = struct.unpack("<h", d[i+1:i+3])
         if BASE + i + 3 + rel == t:
             hits.append(BASE + i)
-    print(f"# llamadas a 0x{t:05x}: {len(hits)}")
+    print(f"# calls to 0x{t:05x}: {len(hits)}")
     print("   " + " ".join(f"0x{h:05x}" for h in hits))

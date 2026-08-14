@@ -12,7 +12,7 @@ for name, first in PARTS.items():
     sb = f.read(2048)
     magic, = struct.unpack(">I", sb[1372:1376])
     if magic != 0x011954:
-        print(f"{name}: sin superbloque FFS")
+        print(f"{name}: no FFS superblock")
         continue
     u = lambda o: struct.unpack(">i", sb[o:o+4])[0]
     size, ncg, bsize, fsize, frag = u(36), u(44), u(48), u(52), u(56)
@@ -21,6 +21,6 @@ for name, first in PARTS.items():
     total_b = size * fsize
     free_b = nbfree * bsize + nffree * fsize
     print(f"{name}:")
-    print(f"   tamano   {total_b/1048576:8.1f} MB")
-    print(f"   libre    {free_b/1048576:8.1f} MB  ({100*free_b/total_b:.1f} %)")
-    print(f"   inodos libres {nifree}, directorios {ndir}")
+    print(f"   size     {total_b/1048576:8.1f} MB")
+    print(f"   free     {free_b/1048576:8.1f} MB  ({100*free_b/total_b:.1f} %)")
+    print(f"   free inodes {nifree}, directories {ndir}")

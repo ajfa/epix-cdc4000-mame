@@ -20,6 +20,6 @@ for l in lines:
     else:
         cur = []
 
-print(f"comandos completos: {len(ops)}")
+print(f"complete commands: {len(ops)}")
 for op, n in Counter(ops).most_common(12):
     print(f"  {op}  x{n:<6} {NAMES.get(op, '?')}")

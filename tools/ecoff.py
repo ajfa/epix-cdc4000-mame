@@ -108,7 +108,7 @@ def main():
         code = e.d[text["scnptr"]:text["scnptr"] + text["size"]]
         code_syms = sorted((v, n) for n, v, st, sc in ext
                            if text["vaddr"] <= v < text["vaddr"] + text["size"])
-        print(f"# llamadas a 0x{target:08x}")
+        print(f"# calls to 0x{target:08x}")
         for i in range(0, len(code) - 3, 4):
             word, = struct.unpack(">I", code[i:i+4])
             if word == want:
@@ -132,9 +132,9 @@ def main():
             prev = (v, n)
         nxt = next(((v, n) for v, n in code if v > a), None)
         if prev:
-            print(f"  0x{a:08x} esta en {prev[1]} (+0x{a - prev[0]:x}, empieza en 0x{prev[0]:08x})")
+            print(f"  0x{a:08x} is in {prev[1]} (+0x{a - prev[0]:x}, starts at 0x{prev[0]:08x})")
         if nxt:
-            print(f"  siguiente simbolo: 0x{nxt[0]:08x} {nxt[1]}")
+            print(f"  next symbol: 0x{nxt[0]:08x} {nxt[1]}")
 
     elif cmd == "dis":
         name = sys.argv[2]

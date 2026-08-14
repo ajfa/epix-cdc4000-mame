@@ -35,8 +35,8 @@ NEW = """			case 0x38: // CCS cache control page
 
 text = open(SRC).read()
 if OLD not in text:
-    sys.exit("FAILED: no encontrado el case 0x30")
+    sys.exit("FAILED: case 0x30 not found")
 if text.count(OLD) != 1:
-    sys.exit(f"FAILED: {text.count(OLD)} coincidencias")
+    sys.exit(f"FAILED: {text.count(OLD)} matches")
 open(SRC, "w").write(text.replace(OLD, NEW, 1))
 print("patched", SRC)
